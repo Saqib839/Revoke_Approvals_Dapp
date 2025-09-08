@@ -1,8 +1,7 @@
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { mainnet, arbitrum, peaq} from '@reown/appkit/networks'
-// import { peaq ,optimismSepolia } from '@reown/appkit/networks'
 import type { AppKitNetwork } from '@reown/appkit/networks'
-import { SolanaAdapter } from '@reown/appkit-adapter-solana/react'
+// import { SolanaAdapter } from '@reown/appkit-adapter-solana/react'
 
 
 // Get projectId from https://cloud.reown.com
@@ -21,7 +20,7 @@ export const metadata = {
 
 // for custom networks visit -> https://docs.reown.com/appkit/react/core/custom-networks
 export const networks = [mainnet, arbitrum, peaq] as [AppKitNetwork, ...AppKitNetwork[]];
-// export const networks = [peaq, optimismSepolia] as [AppKitNetwork, ...AppKitNetwork[]]
+
 
 //Set up the Wagmi Adapter (Config)
 export const wagmiAdapter = new WagmiAdapter({
@@ -30,6 +29,6 @@ export const wagmiAdapter = new WagmiAdapter({
 })
 
 // Set up Solana Adapter
-export const solanaWeb3JsAdapter = new SolanaAdapter()
+// export const solanaWeb3JsAdapter = new SolanaAdapter()
 
 export const config = wagmiAdapter.wagmiConfig

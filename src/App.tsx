@@ -18,7 +18,10 @@ const generalConfig = {
   networks,
   themeMode: 'dark' as const,
   features: {
-    analytics: true // Optional - defaults to your Cloud configuration
+    analytics: true,
+    socialLogin: false, 
+    socials: [],
+    email: false,
   },
   themeVariables: {
     '--w3m-accent': '#000000',

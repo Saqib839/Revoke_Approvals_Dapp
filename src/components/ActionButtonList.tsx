@@ -1,6 +1,5 @@
 import { useDisconnect, useAppKit, useAppKitNetwork } from '@reown/appkit/react';
-import { useAccount, useBalance } from 'wagmi';
-import { useSwitchChain } from 'wagmi';
+import { useAccount, useBalance, useSwitchChain } from 'wagmi';
 // import { networks } from '../config'
 
 function shortenAddress(address: string) {
