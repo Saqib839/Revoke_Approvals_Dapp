@@ -41,25 +41,24 @@ export const RevokeApproval: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '30px auto', padding: '20px', border: '1px solid #eee', borderRadius: '8px' }}>
-      <h2>Revoke ERC20 Approval</h2>
-      <div style={{ marginBottom: '10px' }}>
-        <label>Token Address:</label>
-        <input value={token} onChange={e => setToken(e.target.value)} style={{ width: '100%' }} />
+    <div style={{ maxWidth: '600px', margin: '30px auto', padding: '32px', border: '1px solid #eee', borderRadius: '12px', background: '#fff' }}>
+      <h2 style={{ marginBottom: '28px' }}>Revoke ERC20 Approval</h2>
+      <div style={{ marginBottom: '22px' }}>
+        <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>Token Address:</label>
+        <input value={token} onChange={e => setToken(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: 6, border: '1px solid #ccc', fontSize: '1rem' }} />
       </div>
-      <div style={{ marginBottom: '10px' }}>
-        <label>Spender Address:</label>
-        <input value={spender} onChange={e => setSpender(e.target.value)} style={{ width: '100%' }} />
+      <div style={{ marginBottom: '22px' }}>
+        <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>Spender Address:</label>
+        <input value={spender} onChange={e => setSpender(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: 6, border: '1px solid #ccc', fontSize: '1rem' }} />
       </div>
-      <button onClick={revokeApproval} disabled={!isConnected} style={{ marginTop: '10px' }}>
+      <button onClick={revokeApproval} disabled={!isConnected} style={{ marginTop: '10px', marginBottom: '28px', width: '40%', padding: '12px', fontSize: '1.1rem', borderRadius: 8 }}>
         Revoke Approval
       </button>
-      {txStatus && <p style={{ marginTop: '20px' }}>{txStatus}</p>}
-     <div style={{ marginTop: '10px', color: '#888', fontSize: '0.9em' }}>
+      {txStatus && <p style={{ marginTop: '28px', marginBottom: '28px', fontSize: '1.05rem' }}>{txStatus}</p>}
+      <div style={{ marginTop: '18px', color: '#888', fontSize: '1rem', lineHeight: 2 }}>
         {isConnected ? `Connected: ${address}` : 'Connect your wallet to revoke approval.'}
-        {/* {chainId && <div>Network Name: {chain}</div>} */}
         {chainId && <div>Network Chain ID: {chainId}</div>}
-      </div> 
+      </div>
     </div>
   );
 };

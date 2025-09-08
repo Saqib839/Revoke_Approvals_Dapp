@@ -44,7 +44,7 @@ export function App() {
       {/* <h1>PEAQ Network Revoke Approvals</h1> */}
       <WagmiProvider config={wagmiAdapter.wagmiConfig}>
         <QueryClientProvider client={queryClient}>
-            <appkit-button />
+            {/* <appkit-button /> */}
             <ActionButtonList />
             <RevokeApproval />
             <div className="advice">
