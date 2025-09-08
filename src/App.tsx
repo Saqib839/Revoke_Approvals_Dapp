@@ -1,14 +1,13 @@
 import { createAppKit } from '@reown/appkit/react'
-
 import { WagmiProvider } from 'wagmi'
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ActionButtonList } from './components/ActionButtonList'
 // import { InfoList } from './components/InfoList'
 import RevokeApproval from './RevokeApproval'
 import { projectId, metadata, networks, wagmiAdapter } from './config'
-
 import "./App.css"
+
+
 
 const queryClient = new QueryClient()
 
@@ -48,6 +47,7 @@ export function App() {
       <WagmiProvider config={wagmiAdapter.wagmiConfig}>
         <QueryClientProvider client={queryClient}>
             {/* <appkit-button /> */}
+            {/* <div style={{ display:'flex', justifyContent:'center', alignItems:'center', height:'10vh' }}><appkit-button /></div> */}
             <ActionButtonList />
             <RevokeApproval />
             <div className="advice">
