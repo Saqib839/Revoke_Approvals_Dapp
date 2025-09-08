@@ -1,7 +1,7 @@
 import { useDisconnect, useAppKit, useAppKitNetwork } from '@reown/appkit/react';
 import { useAccount, useBalance } from 'wagmi';
 import { useSwitchChain } from 'wagmi';
-import { networks } from '../config'
+// import { networks } from '../config'
 
 function shortenAddress(address: string) {
   return address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '';
@@ -10,7 +10,7 @@ function shortenAddress(address: string) {
 export const ActionButtonList = () => {
   const { disconnect } = useDisconnect();
   const { open } = useAppKit();
-  const { switchNetwork } = useAppKitNetwork(); // Only one network for now
+  // const { switchNetwork } = useAppKitNetwork(); 
   const { address, isConnected } = useAccount();
   const { data: balanceData } = useBalance({ address });
   // const { chains, switchChain } = useSwitchChain();
