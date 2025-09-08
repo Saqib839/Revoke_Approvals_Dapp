@@ -16,7 +16,7 @@ export const ActionButtonList = () => {
     chainId: 3338, // Peaq chain id
     enabled: !!address,
     watch: true,
-  });
+  }as any);
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 16, width: '100%' }}>
@@ -33,7 +33,7 @@ export const ActionButtonList = () => {
         <button onClick={() => switchNetwork(networks[1]) }>Switch</button>
       )}
       {isConnected && (
-        <button onClick={disconnect}>Disconnect</button>
+        <button onClick={() => disconnect()}>Disconnect</button>
       )}
     </div>
   );
