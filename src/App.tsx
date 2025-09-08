@@ -5,6 +5,7 @@ import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ActionButtonList } from './components/ActionButtonList'
 import { InfoList } from './components/InfoList'
+import RevokeApproval from './RevokeApproval'
 import { projectId, metadata, networks, wagmiAdapter , solanaWeb3JsAdapter} from './config'
 
 import "./App.css"
@@ -40,6 +41,7 @@ export function App() {
         <QueryClientProvider client={queryClient}>
             <appkit-button />
             <ActionButtonList />
+            <RevokeApproval />
             <div className="advice">
               <p>
                 This projectId only works on localhost. <br/>
