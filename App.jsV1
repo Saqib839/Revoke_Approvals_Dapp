@@ -1,0 +1,99 @@
+import React, { useState } from "react";
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+
+const PEAQ_RPC = "https://quicknode3.peaq.xyz";
+const PEAQ_CHAIN_ID = 3339; // Example chain ID for Peaq
+
+function App() {
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [walletAddress, setWalletAddress] = useState("");
+  const [token, setToken] = useState("");
+  const [spender, setSpender] = useState("");
+  const [txStatus, setTxStatus] = useState("");
+
+  const connectWallet = async () => {
+    try {
+      const web3Modal = new Web3Modal({
+        cacheProvider: false,
+        providerOptions: {
+          walletconnect: {
+            package: WalletConnectProvider,
+            options: {
+              rpc: { PEAQ_CHAIN_ID: PEAQ_RPC }, // Peaq chain id 592 (example)
+            },
+          },
+        },
+      });
+
+      const connection = await web3Modal.connect();
+      const web3Provider = new ethers.BrowserProvider(connection);
+      const signer = await web3Provider.getSigner();
+      const address = await signer.getAddress();
+
+      setProvider(web3Provider);
+      setSigner(signer);
+      setWalletAddress(address);
+    } catch (err) {
+      console.error("Wallet connection failed:", err.message);
+    }
+  };
+
+  const revokeApproval = async () => {
+    if (!ethers.isAddress(token) || !ethers.isAddress(spender)) {
+      alert("Invalid token or spender address!");
+      return;
+    }
+    if (!signer) {
+      alert("Connect wallet first!");
+      return;
+    }
+
+    const tokenContract = new ethers.Contract(
+      token,
+      ["function approve(address spender, uint256 amount) public returns (bool)"],
+      signer
+    );
+
+    try {
+      setTxStatus("Sending transaction...");
+      const tx = await tokenContract.approve(spender, 0);
+      setTxStatus(`Transaction sent: ${tx.hash}`);
+      const receipt = await tx.wait();
+      setTxStatus(`✅ Approval revoked! Tx confirmed in block ${receipt.blockNumber}`);
+    } catch (err) {
+      console.error(err);
+      setTxStatus(`Error: ${err.message}`);
+    }
+  };
+
+  return (
+    <div style={{ maxWidth: "600px", margin: "50px auto", fontFamily: "Arial" }}>
+      <h1>Peaq Approval Revoke</h1>
+
+      {!walletAddress ? (
+        <button onClick={connectWallet}>Connect Wallet</button>
+      ) : (
+        <p>Connected: {walletAddress}</p>
+      )}
+
+      <div style={{ marginTop: "20px" }}>
+        <label>Token Address:</label>
+        <input value={token} onChange={(e) => setToken(e.target.value)} style={{ width: "100%" }} />
+
+        <label>Spender Address:</label>
+        <input value={spender} onChange={(e) => setSpender(e.target.value)} style={{ width: "100%" }} />
+
+        <button onClick={revokeApproval} style={{ marginTop: "10px" }}>
+          Revoke Approval
+        </button>
+      </div>
+
+      {txStatus && <p style={{ marginTop: "20px" }}>{txStatus}</p>}
+    </div>
+  );
+}
+
+export default App;
