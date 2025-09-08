@@ -40,7 +40,7 @@ export function App() {
 
   return (
     <div className={"pages"}>
-      <img src="/revoke_approvals_bg.png" alt="Reown" style={{ width: '270px', height: '200px' }} />
+      <img src="/revoke_approvals_bg.png" alt="revoke_approvals" style={{ width: '270px', height: '200px' }} />
       {/* <h1>PEAQ Network Revoke Approvals</h1> */}
       <WagmiProvider config={wagmiAdapter.wagmiConfig}>
         <QueryClientProvider client={queryClient}>
