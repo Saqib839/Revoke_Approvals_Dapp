@@ -55,10 +55,11 @@ export const RevokeApproval: React.FC = () => {
         Revoke Approval
       </button>
       {txStatus && <p style={{ marginTop: '20px' }}>{txStatus}</p>}
-      <div style={{ marginTop: '10px', color: '#888', fontSize: '0.9em' }}>
+     <div style={{ marginTop: '10px', color: '#888', fontSize: '0.9em' }}>
         {isConnected ? `Connected: ${address}` : 'Connect your wallet to revoke approval.'}
+        {/* {chainId && <div>Network Name: {chain}</div>} */}
         {chainId && <div>Network Chain ID: {chainId}</div>}
-      </div>
+      </div> 
     </div>
   );
 };
