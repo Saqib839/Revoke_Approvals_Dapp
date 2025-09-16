@@ -1,4 +1,5 @@
-import { useDisconnect, useAppKit, useAppKitNetwork } from '@reown/appkit/react';
+// import { useDisconnect, useAppKit, useAppKitNetwork } from '@reown/appkit/react';
+import { useDisconnect, useAppKit } from '@reown/appkit/react';
 import { useAccount, useBalance, useSwitchChain } from 'wagmi';
 // import { networks } from '../config'
 
