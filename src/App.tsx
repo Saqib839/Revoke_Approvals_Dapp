@@ -56,6 +56,7 @@ export function App() {
             </div>
             {/* <InfoList /> */}
         </QueryClientProvider>
+        <h3 style={{ color: 'red' }}>This is the first release of our Revoke Approval dApp. Lots of improvements and features will be added in the future.</h3>
       </WagmiProvider>
     </div>
   )

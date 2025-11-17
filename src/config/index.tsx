@@ -1,6 +1,43 @@
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 // import { mainnet, arbitrum, peaq} from '@reown/appkit/networks'
-import {peaq} from '@reown/appkit/networks'
+// import {peaq} from '@reown/appkit/networks'
+import {
+  // L1s
+  mainnet,
+  polygon,
+  bsc,
+  avalanche,
+  fantom,
+  cronos,
+  gnosis,
+  klaytn,
+  celo,
+  harmonyOne,
+  fuse,
+  hedera,
+
+  // L2s
+  arbitrum,
+  arbitrumNova,
+  optimism,
+  base,
+  scroll,
+  zksync,
+  linea,
+  mantle,
+  mode,
+  polygonZkEvm,
+  blast,
+  zkFair,
+
+  // Sidechains / Appchains
+  metis,
+  moonbeam,
+  moonriver,
+  peaq
+} from '@reown/appkit/networks'
+
+
 import type { AppKitNetwork } from '@reown/appkit/networks'
 // import { SolanaAdapter } from '@reown/appkit-adapter-solana/react'
 
@@ -21,7 +58,42 @@ export const metadata = {
 
 // for custom networks visit -> https://docs.reown.com/appkit/react/core/custom-networks
 // export const networks = [mainnet, arbitrum, peaq] as [AppKitNetwork, ...AppKitNetwork[]];
-export const networks = [peaq] as [AppKitNetwork, ...AppKitNetwork[]];
+// export const networks = [peaq] as [AppKitNetwork, ...AppKitNetwork[]];
+export const networks = [
+  // L1 Networks
+  mainnet,
+  polygon,
+  bsc,
+  avalanche,
+  fantom,
+  cronos,
+  gnosis,
+  klaytn,
+  celo,
+  harmonyOne,
+  fuse,
+  hedera,
+
+  // L2 Networks
+  arbitrum,
+  arbitrumNova,
+  optimism,
+  base,
+  scroll,
+  zksync,
+  linea,
+  mantle,
+  mode,
+  polygonZkEvm,
+  blast,
+  zkFair,
+
+  // Sidechains / Appchains
+  metis,
+  moonbeam,
+  moonriver,
+  peaq
+] as [AppKitNetwork, ...AppKitNetwork[]];
 
 
 //Set up the Wagmi Adapter (Config)
