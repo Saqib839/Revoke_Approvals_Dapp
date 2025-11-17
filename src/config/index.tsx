@@ -34,7 +34,10 @@ import {
   metis,
   moonbeam,
   moonriver,
-  peaq
+  peaq,
+
+  //testnets
+  optimismSepolia
 } from '@reown/appkit/networks'
 
 
@@ -92,7 +95,10 @@ export const networks = [
   metis,
   moonbeam,
   moonriver,
-  peaq
+  peaq,
+
+  //testnets
+  optimismSepolia
 ] as [AppKitNetwork, ...AppKitNetwork[]];
 
 
