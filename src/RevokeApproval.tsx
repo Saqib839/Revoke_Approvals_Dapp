@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAccount, useChainId, useWalletClient } from 'wagmi';
-import { ethers } from 'ethers';
+import { ethers, Eip1193Provider } from 'ethers';
 
 const ERC20_ABI = [
   'function approve(address spender, uint256 amount) public returns (bool)'
@@ -15,73 +15,117 @@ export const RevokeApproval: React.FC = () => {
   const [spender, setSpender] = useState('');
   const [amount, setAmount] = useState('0');
   const [txStatus, setTxStatus] = useState('');
+  const [isTxPending, setIsTxPending] = useState(false);
 
   const revokeApproval = async () => {
     setTxStatus('');
+    setIsTxPending(true);
     // Trim the inputs before using
     const trimmedToken = token.trim();
     const trimmedSpender = spender.trim();
     const trimmedAmount = amount.trim();
+    
     if (!ethers.isAddress(trimmedToken) || !ethers.isAddress(trimmedSpender)) {
-      setTxStatus('Invalid token or spender address!');
+      setTxStatus('error: Invalid token or spender address!');
+      setIsTxPending(false);
       return;
     }
     if (!isConnected || !walletClient) {
-      setTxStatus('Connect wallet first!');
+      setTxStatus('error: Connect wallet first!');
+      setIsTxPending(false);
       return;
     }
+    
     let parsedAmount;
     try {
       parsedAmount = ethers.parseUnits(trimmedAmount || '0', 18);
-    } catch (error) {
-      setTxStatus('Invalid amount');
+    } catch {
+      setTxStatus('error: Invalid amount');
+      setIsTxPending(false);
       return;
     }
+    
     try {
       setTxStatus('Sending transaction...');
       // Create ethers.js provider and signer from wagmi walletClient
-      const provider = new ethers.BrowserProvider(walletClient); // EIP-1193 provider
+      const provider = new ethers.BrowserProvider(walletClient as Eip1193Provider); // EIP-1193 provider
       const signer = await provider.getSigner();
       const tokenContract = new ethers.Contract(trimmedToken, ERC20_ABI, signer);
       const tx = await tokenContract.approve(trimmedSpender, parsedAmount);
       setTxStatus(`Transaction sent: ${tx.hash}`);
       const receipt = await tx.wait();
-      setTxStatus(`✅ Approval updated! Tx confirmed in block ${receipt.blockNumber}`);
-    } catch (err: any) {
-      setTxStatus(`Error: ${err.message}`);
+      setTxStatus(`success: ✅ Approval updated! Tx confirmed in block ${receipt.blockNumber}`);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setTxStatus(`error: ${err.message}`);
+      } else {
+        setTxStatus('error: Unknown error');
+      }
+    } finally {
+      setIsTxPending(false);
     }
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '30px auto', padding: '32px', border: '1px solid #eee', borderRadius: '12px', background: '#fff' }}>
-      <h2 style={{ marginBottom: '28px' }}>Revoke ERC20 Approval</h2>
-      <div style={{ marginBottom: '22px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>Token Address:</label>
-        <input value={token} onChange={e => setToken(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: 6, border: '1px solid #ccc', fontSize: '1rem' }} />
+    <div className="glass-card">
+      <div className="text-center mb-4">
+        <h2>Manual Revoke</h2>
+        <p className="text-muted">Manually enter token and spender addresses to adjust or revoke allowances.</p>
       </div>
-      <div style={{ marginBottom: '22px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>Spender Address:</label>
-        <input value={spender} onChange={e => setSpender(e.target.value)} style={{ width: '100%', padding: '10px', borderRadius: 6, border: '1px solid #ccc', fontSize: '1rem' }} />
+
+      <div className="form-group">
+        <label className="form-label">Token Address:</label>
+        <input 
+          className="form-input"
+          value={token} 
+          onChange={e => setToken(e.target.value)} 
+          placeholder="0x..."
+        />
       </div>
-      <div style={{ marginBottom: '22px' }}>
-        <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>New Approval Amount (0 = revoke):</label>
+      
+      <div className="form-group">
+        <label className="form-label">Spender Address:</label>
+        <input 
+          className="form-input"
+          value={spender} 
+          onChange={e => setSpender(e.target.value)} 
+          placeholder="0x..."
+        />
+      </div>
+      
+      <div className="form-group">
+        <label className="form-label">New Approval Amount (0 = revoke):</label>
         <input
+          className="form-input"
           type="number"
           min="0"
           value={amount}
           onChange={e => setAmount(e.target.value)}
-          style={{ width: '100%', padding: '10px', borderRadius: 6, border: '1px solid #ccc', fontSize: '1rem' }}
+          placeholder="0"
         />
       </div>
-      <button onClick={revokeApproval} disabled={!isConnected} style={{ marginTop: '10px', marginBottom: '28px', width: '40%', padding: '12px', fontSize: '1.1rem', borderRadius: 8 }}>
-      Set New Approval
-      </button>
-      {txStatus && <p style={{ marginTop: '28px', marginBottom: '28px', fontSize: '1.05rem' }}>{txStatus}</p>}
-      <div style={{ marginTop: '18px', color: '#888', fontSize: '1rem', lineHeight: 2 }}>
+      
+      <div className="text-center mt-4">
+        <button 
+          className="btn-primary w-full"
+          onClick={revokeApproval} 
+          disabled={!isConnected || isTxPending} 
+        >
+          {isTxPending ? 'Processing...' : 'Set New Approval'}
+        </button>
+      </div>
+      
+      {txStatus && (
+        <div className={`status-message ${txStatus.startsWith('error:') ? 'error' : txStatus.startsWith('success:') ? 'success' : ''}`}>
+          {txStatus.replace('error:', '').replace('success:', '')}
+        </div>
+      )}
+      
+      <div className="text-center mt-4 text-muted" style={{ fontSize: '0.9rem' }}>
         {isConnected ? (
           <div>
-            Connected: {address}
-            {chainId && <div>Network Chain ID: {chainId}</div>}
+            Connected: <span className="address-tag">{address?.slice(0, 6)}...{address?.slice(-4)}</span>
+            {chainId && <div className="mt-4">Network Chain ID: {chainId}</div>}
           </div>
         ) : (
           'Connect your wallet to revoke approval.'

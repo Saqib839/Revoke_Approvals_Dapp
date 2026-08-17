@@ -2,8 +2,8 @@ import { useState } from "react";
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ActionButtonList } from './components/ActionButtonList'
 import RevokeApproval from './RevokeApproval'
+import AutoScanner from './AutoScanner'
 import { projectId, metadata, networks, wagmiAdapter } from './config'
 import "./App.css"
 
@@ -20,7 +20,8 @@ const generalConfig = {
     email: false,
   },
   themeVariables: {
-    '--w3m-accent': '#000000',
+    '--w3m-accent': '#6366f1',
+    '--w3m-font-family': 'Outfit, sans-serif'
   }
 }
 createAppKit({
@@ -31,80 +32,59 @@ createAppKit({
 function ManualRevokePage() {
   return (
     <>
-      {/* <img src="/revoke_approvals_bg.png" alt="revoke_approvals" style={{ width: '270px', height: '200px' }} /> */}
-      <WagmiProvider config={wagmiAdapter.wagmiConfig}>
-        <QueryClientProvider client={queryClient}>
-            <ActionButtonList />
-            <RevokeApproval />
-            <div className="advice">
-              <p></p>
-            </div>
-        </QueryClientProvider>
-        <p style={{ textAlign: 'center', marginTop: '2rem', color: '#ff6666' }}>
-        This is the first release of our Revoke Approval dApp. Lots of improvements and features will be added in the future.
-        </p>
-      </WagmiProvider>
+      <RevokeApproval />
     </>
   );
 }
 
 function AutomaticPage() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '100px' }}>
-      <h1>Auto Approval Scanner</h1>
-      <p style={{ fontSize: '1.6rem', color: '#888' }}>Coming soon</p>
-      <p style={{ textAlign: 'center', marginTop: '2rem', color: '#ff6666' }}>
-        In this you do not have to manually input the token and spender addresses. 
-        We will scan your wallet for all the tokens and spender addresses and only adjust the approvals you want to modify.
-      </p>
-    </div>
+    <>
+      <AutoScanner />
+    </>
   )
 }
 
 export function App() {
-  const [activePage, setActivePage] = useState<'manual' | 'automatic'>('manual');
+  const [activePage, setActivePage] = useState<'manual' | 'automatic'>('automatic');
 
   return (
-    <div className={"pages"}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
-        <img src="/revoke_approvals_bg.png" alt="revoke_approvals" style={{ width: '270px', height: '200px', marginBottom: '18px' }} />
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-          <button
-            style={{
-              padding: '12px 34px',
-              borderRadius: 7,
-              backgroundColor: activePage === 'manual' ? '#222' : '#fff',
-              color: activePage === 'manual' ? '#fff' : '#222',
-              fontWeight: 600,
-              fontSize: '1rem',
-              border: '2px solid #222',
-              cursor: 'pointer',
-              outline: 'none',
-            }}
-            onClick={() => setActivePage('manual')}
-          >
-            Manual Revoke
-          </button>
-          <button
-            style={{
-              padding: '12px 34px',
-              borderRadius: 7,
-              backgroundColor: activePage === 'automatic' ? '#222' : '#fff',
-              color: activePage === 'automatic' ? '#fff' : '#222',
-              fontWeight: 600,
-              fontSize: '1rem',
-              border: '2px solid #222',
-              cursor: 'pointer',
-              outline: 'none',
-            }}
-            onClick={() => setActivePage('automatic')}
-          >
-            Auto Approval Scanner
-          </button>
+    <WagmiProvider config={wagmiAdapter.wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <nav className="navbar">
+          <div className="nav-logo">
+            <img src="/revoke_approvals_bg.png" alt="Logo" style={{ filter: 'drop-shadow(0px 0px 8px rgba(255,255,255,0.5))' }} />
+            <h1>Revoke App</h1>
+          </div>
+          <div className="header-actions">
+            <appkit-button />
+          </div>
+        </nav>
+
+        <div className="app-container">
+          <div className="tabs-container">
+            <button
+              className={`tab-btn ${activePage === 'automatic' ? 'active' : ''}`}
+              onClick={() => setActivePage('automatic')}
+            >
+              Auto Scanner
+            </button>
+            <button
+              className={`tab-btn ${activePage === 'manual' ? 'active' : ''}`}
+              onClick={() => setActivePage('manual')}
+            >
+              Manual Revoke
+            </button>
+          </div>
+
+          {activePage === 'manual' ? <ManualRevokePage /> : <AutomaticPage />}
+
+          <p className="text-center text-muted mt-4" style={{ fontSize: '0.9rem' }}>
+            Production Release. Secure your wallet by managing your token approvals.
+          </p>
         </div>
-      </div>
-      {activePage === 'manual' ? <ManualRevokePage /> : <AutomaticPage />}
-    </div>
+      </QueryClientProvider>
+    </WagmiProvider>
   )
 }
 

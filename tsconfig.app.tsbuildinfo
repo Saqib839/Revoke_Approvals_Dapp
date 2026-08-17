@@ -1,1 +1,1 @@
-{"root":["./src/App.tsx","./src/RevokeApproval.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/ActionButtonList.tsx","./src/components/InfoList.tsx","./src/config/index.tsx"],"version":"5.9.2"}
+{"root":["./src/App.tsx","./src/AutoScanner.tsx","./src/RevokeApproval.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/ActionButtonList.tsx","./src/components/InfoList.tsx","./src/config/index.tsx"],"version":"5.9.2"}
