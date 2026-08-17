@@ -4,6 +4,7 @@ import { WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import RevokeApproval from './RevokeApproval'
 import AutoScanner from './AutoScanner'
+import NetworkSwitcher from './NetworkSwitcher'
 import { projectId, metadata, networks, wagmiAdapter } from './config'
 import "./App.css"
 
@@ -57,6 +58,7 @@ export function App() {
             <h1>Revoke App</h1>
           </div>
           <div className="header-actions">
+            <NetworkSwitcher />
             <appkit-button />
           </div>
         </nav>
