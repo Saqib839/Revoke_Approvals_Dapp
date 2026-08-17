@@ -369,3 +369,56 @@ h1, h2, h3 {
   50% { opacity: 1; }
   100% { opacity: 0.6; }
 }
+/* Custom Connect Button */
+.custom-connect-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 99px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  min-height: 44px;
+}
+
+.custom-connect-btn:hover {
+  background: var(--primary-hover);
+}
+
+.custom-connect-btn.connected {
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.4rem 1.2rem;
+  min-width: 140px;
+}
+
+.custom-connect-btn.connected:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(30, 41, 59, 1);
+}
+
+.wallet-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.wallet-info .address {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.wallet-info .balance {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: monospace;
+}

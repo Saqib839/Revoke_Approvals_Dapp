@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import RevokeApproval from './RevokeApproval'
 import AutoScanner from './AutoScanner'
 import NetworkSwitcher from './NetworkSwitcher'
+import { CustomConnectButton } from './components/CustomConnectButton'
 import { projectId, metadata, networks, wagmiAdapter } from './config'
 import "./App.css"
 
@@ -59,7 +60,7 @@ export function App() {
           </div>
           <div className="header-actions">
             <NetworkSwitcher />
-            <appkit-button />
+            <CustomConnectButton />
           </div>
         </nav>
 
